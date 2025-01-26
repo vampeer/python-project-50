@@ -1,5 +1,26 @@
 import os
 import json
+import yaml
+from yaml import Loader
+
+
+def is_yaml(filename):
+    if not (filename.find(".yaml") == -1) or not (filename.find(".yml") == -1):
+        return True
+    return False
+
+
+def is_json(filename):
+    if not (filename.find(".json") == -1):
+        return True
+    return False
+
+
+def parse_file(filepath):
+    if is_yaml(filepath):
+        return yaml.load(open(os.path.abspath(filepath)), Loader=Loader)
+    if is_json(filepath):
+        return json.load(open(os.path.abspath(filepath)))
 
 
 def merge_keys(first, second):
@@ -13,8 +34,8 @@ def merge_keys(first, second):
 
 def generate_diff(first_file, second_file):
     """Get files path and parse json"""
-    first = json.load(open(os.path.abspath(first_file)))
-    second = json.load(open(os.path.abspath(second_file)))
+    first, second = parse_file(first_file), parse_file(second_file)
+    print(first)
     """Merge both dictionary keys and sort them"""
     merged_keys = merge_keys(first, second)
 
