@@ -1,4 +1,4 @@
-name: Python CI
+name: test
 
 on:
   - push
@@ -12,7 +12,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.8'
         # make depends on uv
       - name: Install dependencies
         run: |
@@ -20,7 +20,8 @@ jobs:
           make install
       - name: Run linter and pytest
         run: |
-          make check
+          make lint
+          make test
       #- name: Test & publish code coverage
         #uses: paambaati/codeclimate-action@v9.0.0
         #if: github.ref_name == 'main'
